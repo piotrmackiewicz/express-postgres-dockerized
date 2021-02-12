@@ -1,11 +1,23 @@
 version: '3'
+
 services:
-    app:
-        build:
-          context: .
-          dockerfile: Dockerfile
-        command: yarn run dev
-        ports:
-            - 3001:3001
-        volumes:
-            - ./app/src:/usr/src/app/src:z
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn run dev
+    ports:
+        - 3001:3001
+    volumes:
+        - ./app/src:/usr/src/app/src:z
+  postgres:
+    image: postgres:latest
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
